@@ -150,11 +150,23 @@ class SerializerImpl {
             }
         }
     }
+    
+    private boolean inSubGraphs(MutableGraph graph, MutableNode node) {
+        for (final MutableGraph subGraph : graph.subgraphs) {
+            for (final MutableNode nodeInSubGraph : subGraph.nodes) {
+                if (nodeInSubGraph.name.toString().equals(node.name.toString())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     private void nodes(MutableGraph graph, List<MutableNode> nodes) {
         for (final MutableNode node : nodes) {
-            if (!node.attributes.isEmpty()
-                    || (graph.nodes.contains(node) && node.links.isEmpty() && !isLinked(node, nodes))) {
+            if (!inSubGraphs(graph, node)
+                    && ((graph.nodes.contains(node) && node.links.isEmpty() && !isLinked(node, nodes))
+                        || !node.attributes.isEmpty())) {
                 node(node);
                 str.append('\n');
             }
