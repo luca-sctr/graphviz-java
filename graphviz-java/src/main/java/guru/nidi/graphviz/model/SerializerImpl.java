@@ -154,7 +154,7 @@ class SerializerImpl {
     private boolean inSubGraphs(MutableGraph graph, MutableNode node) {
         for (final MutableGraph subGraph : graph.subgraphs) {
             for (final MutableNode nodeInSubGraph : subGraph.nodes) {
-                if (nodeInSubGraph.name.toString().equals(node.name.toString())) {
+                if (nodeInSubGraph.equals(node)) {
                     return true;
                 }
             }
